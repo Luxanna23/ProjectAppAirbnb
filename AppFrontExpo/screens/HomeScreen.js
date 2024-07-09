@@ -21,7 +21,7 @@ const HomeScreen = () => {
 
   const fetchAnnonces = async () => {
     try {
-      const response = await axios.get(`10.117.60.69:3000/`);
+      const response = await axios.get(`${process.env.API}`);
       console.log(process.env.API);
       console.log(response.data);
       setAnnonces(response.data);
