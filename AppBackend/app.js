@@ -14,20 +14,20 @@ const Annonce = require("./models/Annonce");
 app.use(cors());
 app.use(express.json());
 
-const CONNECTION_URL = "mongodb://localhost:27017/AirbnbApp";
+const CONNECTION_URL =
+  //"mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.3/AirbnbApp
+  "mongodb://127.0.0.1:27017/AirbnbApp";
 
 mongoose
-  .connect(CONNECTION_URL)
+  .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    console.log("MongoDB connected...");
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+    app.listen(port, () => {
+      console.log(`Server running on port ${port}`);
     });
   })
   .catch((err) => {
     console.log("Launch error, probably IP address on MongoDB:", err);
   });
-
 //Routes
 app.use("/api/users", usersRouter);
 app.use("/annonces", annoncesRouter);
@@ -37,14 +37,21 @@ app.use("/calendriers", calendriersRouter);
 //Route pour la page d'accueil des annonces
 app.get("/", async (req, res) => {
   try {
-    const annonces = await Annonce.findOne();
+    const wtf = new Annonce({
+      Title: "test",
+      Description: "descriptuon",
+      Adresse: "test",
+      Price_per_night: 20,
+      id_calendrier: 1,
+      id_user: 1,
+    });
+    console.log(wtf);
+    await wtf.save();
+    const annonces = await Annonce.find({});
+    console.log(annonces);
     res.json(annonces);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Internal Server Error" });
   }
-});
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
 });

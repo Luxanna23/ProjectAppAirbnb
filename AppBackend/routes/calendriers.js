@@ -3,7 +3,7 @@ const router = express.Router();
 const Calendrier = require('../models/Calendrier');
 
 //ajouter une date au calendrier
-router.post('/', async (req, res) => {
+router.post('/calendrier', async (req, res) => {
   const { startDate, endDate } = req.body;
 
   try {
@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
 });
 
 //obtenir tout le calendrier
-router.get('/', async (req, res) => {
+router.get('/calendrier', async (req, res) => {
   try {
     const calendrier = await Calendrier.find();
     res.status(200).json(calendrier);

@@ -1,13 +1,27 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Annonce = require('../models/Annonce');
+const Annonce = require("../models/Annonce");
 
 //pour créer une annonce
-router.post('/', async (req, res) => {
-  const { title, description, adresse, Price_per_night, id_calendrier, id_user } = req.body;
+router.post("/", async (req, res) => {
+  const {
+    title,
+    description,
+    adresse,
+    Price_per_night,
+    id_calendrier,
+    id_user,
+  } = req.body;
 
   try {
-    const newAnnonce = new Annonce({ title, description, adresse, Price_per_night, id_calendrier, id_user });
+    const newAnnonce = new Annonce({
+      title,
+      description,
+      adresse,
+      Price_per_night,
+      id_calendrier,
+      id_user,
+    });
     await newAnnonce.save();
     res.status(201).json(newAnnonce);
   } catch (err) {
@@ -16,9 +30,11 @@ router.post('/', async (req, res) => {
 });
 
 //pour charger toutes les annonces
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const annonces = await Annonce.find().populate('id_user').populate('id_calendrier');
+    const annonces = await Annonce.find()
+      .populate("id_user")
+      .populate("id_calendrier");
     res.status(200).json(annonces);
   } catch (err) {
     res.status(500).json({ error: err.message });
