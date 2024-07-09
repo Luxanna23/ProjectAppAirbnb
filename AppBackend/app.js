@@ -14,9 +14,7 @@ const Annonce = require("./models/Annonce");
 app.use(cors());
 app.use(express.json());
 
-const CONNECTION_URL =
-  //"mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.3/AirbnbApp
-  "mongodb://127.0.0.1:27017/AirbnbApp";
+const CONNECTION_URL = "mongodb://127.0.0.1:27017/AirbnbApp";
 
 mongoose
   .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -37,16 +35,8 @@ app.use("/calendriers", calendriersRouter);
 //Route pour la page d'accueil des annonces
 app.get("/", async (req, res) => {
   try {
-    const wtf = new Annonce({
-      Title: "test",
-      Description: "descriptuon",
-      Adresse: "test",
-      Price_per_night: 20,
-      id_calendrier: 1,
-      id_user: 1,
-    });
-    console.log(wtf);
-    await wtf.save();
+    
+
     const annonces = await Annonce.find({});
     console.log(annonces);
     res.json(annonces);

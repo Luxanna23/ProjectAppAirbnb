@@ -13,6 +13,10 @@ const AnnonceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  imageUrl: {
+    type: String,
+    required: false,
+  },
   Price_per_night: {
     type: Number,
     required: true,
