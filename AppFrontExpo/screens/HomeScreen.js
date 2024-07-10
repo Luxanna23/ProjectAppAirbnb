@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet, Image, TextInput, Button, Dimensions, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, TextInput, Button, Dimensions, ActivityIndicator, Platform } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
 
 const { width } = Dimensions.get('window');
@@ -22,19 +23,11 @@ const HomeScreen = () => {
     }
   };
 
-  const renderImages = ({ item }) => (
-    <Image source={{ uri: item }} style={styles.carouselImage} />
-  );
-
   const renderItem = ({ item }) => (
     <View style={styles.annonceContainer}>
-    <FlatList
-        data={item.imageUrl}
-        horizontal
-        keyExtractor={(image, index) => index.toString()}
-        renderItem={renderImages}
-        showsHorizontalScrollIndicator={false}
-        style={styles.carousel}
+      <Image 
+        source={{ uri: `${item.imageUrl}` }} 
+        style={styles.image}
       />
     <View style={styles.textContainer}>
       <Text style={styles.title}>{item.Title}</Text>
@@ -77,59 +70,50 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 16,
-    },
-    searchBar: {
-      height: 40,
-      borderColor: '#ccc',
-      borderWidth: 1,
-      borderRadius: 20,
-      paddingHorizontal: 10,
-      marginBottom: 10,
-    },
-    filtersContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginBottom: 10,
-    },
-    annonceContainer: {
-      marginBottom: 16,
-      backgroundColor: '#f0f0f0',
-      borderRadius: 8,
-      overflow: 'hidden',
-    },
-    carousel: {
-      height: 200,
-    },
-    carouselImage: {
-      width: width - 32,
-      height: 200,
-      borderRadius: 8,
-      marginRight: 8,
-    },
-    textContainer: {
-      padding: 16,
-    },
-    title: {
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
-    description: {
-      fontSize: 14,
-      color: '#666',
-      marginVertical: 8,
-    },
-    price: {
-      fontSize: 16,
-      fontWeight: 'bold',
-    },
-    loadingContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  });
+  container: {
+    flex: 1,
+    padding: 16
+  },
+  searchBar: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    marginBottom: 10
+  },
+  filtersContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10
+  },
+  annonceContainer: {
+    marginBottom: 16,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8
+  },
+  image: {
+    width: width - 32,
+    height: 200,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8
+  },
+  textContainer: {
+    padding: 16
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  description: {
+    fontSize: 14,
+    color: '#666',
+    marginVertical: 8
+  },
+  price: {
+    fontSize: 16,
+    fontWeight: 'bold'
+  }
+});
 
 export default HomeScreen;
