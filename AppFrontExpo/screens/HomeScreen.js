@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet, Image, TextInput, Button, Dimensions, ActivityIndicator, Platform } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, TextInput, Button, Dimensions, ActivityIndicator, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
 
@@ -12,7 +12,6 @@ const HomeScreen = () => {
   useEffect(() => {
     fetchAnnonces();
   }, []);
-
   const fetchAnnonces = async () => {
     try {
       const response = await axios.get(`${process.env.API}`);
@@ -20,21 +19,25 @@ const HomeScreen = () => {
       setLoading(false);
     } catch (error) {
       console.error("Erreur annonces:", error);
+      setLoading(false);
     }
   };
 
   const renderItem = ({ item }) => (
-    <View style={styles.annonceContainer}>
+    <TouchableOpacity
+      style={styles.annonceContainer}
+      onPress={() => navigation.navigate('AnnonceDetail', { annonceId: item._id })}
+    >
       <Image 
         source={{ uri: `${item.imageUrl}` }} 
         style={styles.image}
       />
-    <View style={styles.textContainer}>
-      <Text style={styles.title}>{item.Title}</Text>
-      <Text style={styles.description}>{item.Description}</Text>
-      <Text style={styles.price}>{item.Price_per_night}€</Text>
-    </View>
-  </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>{item.Title}</Text>
+        <Text style={styles.description}>{item.Description}</Text>
+        <Text style={styles.price}>{item.Price_per_night}€</Text>
+      </View>
+    </TouchableOpacity>
   );
 
   const loadMore = () => {
@@ -113,6 +116,11 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     fontWeight: 'bold'
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 

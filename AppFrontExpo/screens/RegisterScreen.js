@@ -14,12 +14,13 @@ const RegisterScreen = ({ navigation }) => {
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post(`${apiUrl}/api/users/register`, {
+      const response = await axios.post(`${process.env.API}/api/users/register`, {
         firstname,
         lastname,
         email,
         password,
       });
+      console.log('Response:', response.data);
       navigation.navigate('Login');
     } catch (err) {
       setError(err.response.data.error);

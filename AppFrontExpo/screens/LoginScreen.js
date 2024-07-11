@@ -12,7 +12,7 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`${apiUrl}/api/users/login`, {
+      const response = await axios.post(`${process.env.API}/api/users/login`, {
         email,
         password,
       });

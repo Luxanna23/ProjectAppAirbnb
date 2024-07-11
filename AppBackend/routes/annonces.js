@@ -32,9 +32,9 @@ router.post("/", async (req, res) => {
 });
 
 //pour charger toutes les annonces
-router.get("/", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const annonces = await Annonce.find()
+    const annonces = await Annonce.find(req.params.id)
       .populate("id_user")
       .populate("id_calendrier");
     res.status(200).json(annonces);
