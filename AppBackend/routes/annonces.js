@@ -31,10 +31,10 @@ router.post("/", async (req, res) => {
   }
 });
 
-//pour charger toutes les annonces
-router.get("/:id", async (req, res) => {
+//pour charger une annonces
+router.get("/api/annonces/:id", async (req, res) => {
   try {
-    const annonces = await Annonce.find(req.params.id)
+    const annonces = await Annonce.findById(req.params.id)
       .populate("id_user")
       .populate("id_calendrier");
     res.status(200).json(annonces);

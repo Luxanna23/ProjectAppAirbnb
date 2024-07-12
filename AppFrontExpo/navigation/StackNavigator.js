@@ -8,8 +8,8 @@ const Stack = createStackNavigator();
 function HomeStack() {
   return (
     <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="AnnonceDetail" component={AnnonceDetailScreen} />
+      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="AnnonceDetail" component={AnnonceDetailScreen} options={{ title: 'Annonce Detail' }}/>
     </Stack.Navigator>
   );
 }

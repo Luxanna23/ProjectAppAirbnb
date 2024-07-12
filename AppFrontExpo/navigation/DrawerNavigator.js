@@ -7,18 +7,6 @@ import LoginScreen from "../screens/LoginScreen";
 import HomeStack from "./StackNavigator";
 import AnnonceDetailScreen from '../screens/AnnonceDetailScreen';
 
-// const Stack = createStackNavigator();
-
-// function HomeStack() {
-//   return (
-//     <Stack.Navigator initialRouteName="Home">
-//       <Stack.Screen name="Home" component={HomeScreen} />
-//       <Stack.Screen name="Register" component={RegisterScreen} />
-//       <Stack.Screen name="Login" component={LoginScreen} />
-//     </Stack.Navigator>
-//   );
-// }
-
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
