@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
 
 const { width } = Dimensions.get('window');
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [annonces, setAnnonces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);

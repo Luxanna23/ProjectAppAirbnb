@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, Button, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Image, Button } from 'react-native';
 import axios from 'axios';
 
-const AnnonceDetailScreen = ({ route }) => {
+const AnnonceDetailScreen = ({ route, navigation }) => {
   const { annonceId } = route.params;
   const [annonce, setAnnonce] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchAnnonceDetail();
+    fetchAnnonceDetails();
   }, []);
 
-  const fetchAnnonceDetail = async () => {
+  const fetchAnnonceDetails = async () => {
     try {
-      const response = await axios.get(`${process.env.API}/annonces/${annonceId}`);
+      const response = await axios.get(`${process.env.API}/api/annonces/${annonceId}`);
       setAnnonce(response.data);
       setLoading(false);
     } catch (error) {
-      console.error("Erreur annonce detail:", error);
+      console.error("Erreur annonce:", error);
       setLoading(false);
     }
   };
@@ -25,51 +25,59 @@ const AnnonceDetailScreen = ({ route }) => {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (!annonce) {
+    return (
+      <View style={styles.container}>
+        <Text>Annonce not found</Text>
       </View>
     );
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {annonce.images && annonce.images.map((image, index) => (
-        <Image
-          key={index}
-          source={{ uri: image }}
-          style={styles.image}
-        />
-      ))}
-      <Text style={styles.title}>{annonce.Title}</Text>
-      <Text style={styles.description}>{annonce.Description}</Text>
-      <Text style={styles.price}>{annonce.Price_per_night}€</Text>
-      <Button title="Reserver" onPress={() => alert('Reservation effectuée!')} />
-    </ScrollView>
+    <View style={styles.container}>
+      <Image 
+        source={{ uri: annonce.imageUrl[0] }} 
+        style={styles.image}
+      />
+      <Text style={styles.title}>{annonce.title}</Text>
+      <Text style={styles.description}>{annonce.description}</Text>
+      <Text style={styles.price}>{annonce.Price_per_night}€ per night</Text>
+      <Button title="Go back" onPress={() => navigation.goBack()} />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 16,
-    alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   image: {
-    width: '100%',
-    height: 200,
-    marginBottom: 16,
+    width: 300,
+    height: 300,
+    marginBottom: 16
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 8
   },
   description: {
     fontSize: 16,
-    marginBottom: 16,
+    color: '#666',
+    marginBottom: 8
   },
   price: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 16
   },
   loadingContainer: {
     flex: 1,
