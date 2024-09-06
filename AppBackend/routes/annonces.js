@@ -1,6 +1,7 @@
-const express = require("express");
+import express from "express";
+import Annonce from "../models/Annonce.js";
+
 const router = express.Router();
-const Annonce = require("../models/Annonce");
 
 //pour créer une annonce
 router.post("/", async (req, res) => {
@@ -43,4 +44,4 @@ router.get("/api/annonces/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

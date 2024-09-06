@@ -1,31 +1,28 @@
-const express = require("express");
-const mongoose = require("mongoose");
-var cors = require("cors");
-const app = express();
-const port = 3000;
-const { MongoClient } = require("mongodb");
-const usersRouter = require("./routes/users");
-const annoncesRouter = require("./routes/annonces");
-const reservationsRouter = require("./routes/reservations");
-const calendriersRouter = require("./routes/calendriers");
-const Annonce = require("./models/Annonce");
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import { MongoClient } from "mongodb";
+import usersRouter from "./routes/users.js";
+import annoncesRouter from "./routes/annonces.js";
+import reservationsRouter from "./routes/reservations.js";
+import calendriersRouter from "./routes/calendriers.js";
+import Annonce from "./models/Annonce.js";
 
+//pour se co a la BDD
+const app = express();
+const PORT = 3000;
+const CONNECTION_URL = "mongodb://127.0.0.1:27017/AirbnbApp";
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-const CONNECTION_URL = "mongodb://127.0.0.1:27017/AirbnbApp";
-
-mongoose
+export var client = await mongoose
   .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
-    });
-  })
-  .catch((err) => {
-    console.log("Launch error, probably IP address on MongoDB:", err);
-  });
+  .then(() =>
+    app.listen(PORT, () => console.log(`SERVER RUNNING ON PORT: ${PORT}`))
+  )
+  .catch(() => console.log("launch error, probably ip address on mongo db"));
+
 //Routes
 app.use("/api/users", usersRouter);
 app.use("/annonces", annoncesRouter);
@@ -35,8 +32,6 @@ app.use("/calendriers", calendriersRouter);
 //Route pour la page d'accueil des annonces
 app.get("/", async (req, res) => {
   try {
-    
-
     const annonces = await Annonce.find({});
     console.log(annonces);
     res.json(annonces);

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const CalendrierSchema = new mongoose.Schema({
   startDate: {
@@ -12,5 +12,4 @@ const CalendrierSchema = new mongoose.Schema({
 });
 
 const Calendrier = mongoose.model('Calendrier', CalendrierSchema);
-
-module.exports = Calendrier;
+export default Calendrier;

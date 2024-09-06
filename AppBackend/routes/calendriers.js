@@ -1,6 +1,7 @@
-const express = require('express');
+import express from "express";
+import Calendrier from "../models/Calendrier.js";
+
 const router = express.Router();
-const Calendrier = require('../models/Calendrier');
 
 //ajouter une date au calendrier
 router.post('/calendrier', async (req, res) => {
@@ -25,4 +26,4 @@ router.get('/calendrier', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
