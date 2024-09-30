@@ -3,6 +3,13 @@ import { View, Text, FlatList, StyleSheet, Image, TextInput, Button, Dimensions,
 import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
 
+
+const getBackendUrl = () => {
+  const debuggerHost = Constants.expoConfig.hostUri;
+  const ip = debuggerHost.split(':')[0];
+  return `http://${ip}:3000`;
+};
+
 const { width } = Dimensions.get('window');
 const HomeScreen = ({ navigation }) => {
   const [annonces, setAnnonces] = useState([]);
@@ -14,7 +21,8 @@ const HomeScreen = ({ navigation }) => {
   }, []);
   const fetchAnnonces = async () => {
     try {
-      const response = await axios.get(`${process.env.API}`);
+      const response = await axios.get(`http://localhost:3000/`);
+      console.log(response.data);
       setAnnonces(response.data);
       setLoading(false);
     } catch (error) {
