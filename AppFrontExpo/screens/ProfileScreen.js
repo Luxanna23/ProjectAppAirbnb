@@ -25,7 +25,7 @@ const ProfileScreen = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`${getBackendUrl()}/user/profile`, user);
+      await axios.put(`profile`, user);
       alert("Profil updated !");
     } catch (err) {
       console.error("Erreur lors de la mise à jour du profil:", err);

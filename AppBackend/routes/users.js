@@ -1,6 +1,6 @@
 import express from "express";
 import User from "../models/User.js";
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import { check, validationResult } from "express-validator";
 
 const router = express.Router();
@@ -29,7 +29,7 @@ router.post(
     try {
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-      const newUser = new User({ firstname, lastname, email, hashedPassword });
+      const newUser = new User({ firstname, lastname, email, password: hashedPassword });
       await newUser.save();
       res.status(201).json(newUser);
     } catch (err) {
@@ -51,7 +51,7 @@ router.post("/login", async (req, res) => {
         .json({ error: "Email ou mot de passe incorrectes" });
     }
     //verif du hashage du mdp
-    const isPassword = await bcrypt.compare(password, user.hashedPassword);
+    const isPassword = await bcrypt.compare(password, user.password);
     if (!isPassword) {
       return res.status(400).json({ error: "Email ou mot de passe incorrect" });
     }
