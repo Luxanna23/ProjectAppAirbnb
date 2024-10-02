@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet, Image, TextInput, Button, Dimensions, ActivityIndicator, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import axios from "axios";
+import axiosInstance from '../axiosConfig';
 
 const { width } = Dimensions.get('window');
 const HomeScreen = ({ navigation }) => {
@@ -14,7 +14,7 @@ const HomeScreen = ({ navigation }) => {
   }, []);
   const fetchAnnonces = async () => {
     try {
-      const response = await axios.get(`${process.env.API}`);
+      const response = await axiosInstance.get(`#`);
       console.log(response.data);
       setAnnonces(response.data);
       setLoading(false);
