@@ -15,6 +15,7 @@ const HomeScreen = ({ navigation }) => {
   const fetchAnnonces = async () => {
     try {
       const response = await axios.get(`${process.env.API}`);
+      console.log(response.data);
       setAnnonces(response.data);
       setLoading(false);
     } catch (error) {

@@ -1,16 +1,16 @@
-const express = require("express");
+import express from "express";
+import User from "../models/User.js";
+import bcrypt from "bcrypt";
+import { check, validationResult } from "express-validator";
+
 const router = express.Router();
-const User = require("../models/User");
-const { check, validationResult } = require("express-validator");
+const saltRounds = 10;
 
 //pour register
 router.post(
   "/register",
   [
-    check("firstname")
-      .not()
-      .isEmpty()
-      .withMessage("Le champs prenom est requis"),
+    check("firstname").not().isEmpty().withMessage("Le champs prenom est requis"),
     check("lastname").not().isEmpty().withMessage("Le champs nom est requis"),
     check("email").isEmail().withMessage("L'email n'est pas valide"),
     check("password")
@@ -27,7 +27,9 @@ router.post(
     const { firstname, lastname, email, password } = req.body;
 
     try {
-      const newUser = new User({ firstname, lastname, email, password });
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+      const newUser = new User({ firstname, lastname, email, hashedPassword });
       await newUser.save();
       res.status(201).json(newUser);
     } catch (err) {
@@ -41,16 +43,23 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email, password });
-    if (!user) {
+    const user = await User.findOne({ email });
+    //verif de l'email
+    if (!user) { 
       return res
         .status(400)
         .json({ error: "Email ou mot de passe incorrectes" });
     }
+    //verif du hashage du mdp
+    const isPassword = await bcrypt.compare(password, user.hashedPassword);
+    if (!isPassword) {
+      return res.status(400).json({ error: "Email ou mot de passe incorrect" });
+    }
+
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-module.exports = router;
+export default router;

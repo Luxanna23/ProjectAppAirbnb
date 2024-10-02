@@ -1,6 +1,7 @@
-const express = require('express');
+import express from "express";
+import Reservation from "../models/Reservation.js";
+
 const router = express.Router();
-const Reservation = require('../models/Reservation');
 
 //pour créer une reservation
 router.post('/reservations', async (req, res) => {
@@ -25,4 +26,4 @@ router.get('/user/:userId', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
