@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, Text, StyleSheet } from "react-native";
+import { View, TextInput, Button, Text, StyleSheet, Platform, AsyncStorage } from "react-native";
 import axios from "../axiosConfig";
 
 const LoginScreen = ({ navigation }) => {
@@ -13,8 +13,13 @@ const LoginScreen = ({ navigation }) => {
         email,
         password,
       });
-      //TODO modifier ici pour gerer les cas ou c pas bon
-      navigation.navigate("Home");
+      console.log(response.data);
+
+      if (response.status === 200 || response.status === 201) {
+        navigation.navigate("Home");
+      } else {
+        setError("Connexion échouée, veuillez vérifier vos informations.");
+      }
     } catch (err) {
       setError(err.response.data.error);
     }
