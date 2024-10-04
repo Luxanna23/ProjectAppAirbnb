@@ -4,7 +4,7 @@ import { Platform } from "react-native";
 const baseURL =
   Platform.OS === "web"
     ? "http://localhost:3000" // URL pour le web
-    : "http://192.168.1.147:3000"; // URL pour les applications mobiles
+    : "http://10.117.60.102:3000"; // URL pour les applications mobiles
 
 // configuration d'instance axios
 const instance = axios.create({

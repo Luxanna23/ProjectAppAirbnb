@@ -6,12 +6,18 @@ import { DrawerContent } from "./components/DrawerContent";
 // import { createStackNavigator } from "@react-navigation/stack";
 import "react-native-gesture-handler";
 import DrawerNavigator from "./navigation/DrawerNavigator";
+import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
+import { useTheme, ThemeProvider } from './themeContext';
 
 const Drawer = createDrawerNavigator();
 // const Stack = createStackNavigator();
 
 export default function App() {
-  return <DrawerNavigator />;
+  return (
+    <ThemeProvider>
+      <DrawerNavigator />
+    </ThemeProvider>
+  );
 }
 
 const styles = StyleSheet.create({
